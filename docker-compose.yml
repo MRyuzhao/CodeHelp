@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  codehelp.api:
+    image: ${DOCKER_REGISTRY}codehelpapi
+    build:
+      context: .
+      dockerfile: CodeHelp.API/Dockerfile

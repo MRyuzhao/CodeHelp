@@ -1,0 +1,16 @@
+C:\D\Project\CodeHelp\CodeHelp\CodeHelp.Common\bin\Debug\netcoreapp2.1\CodeHelp.Common.deps.json
+C:\D\Project\CodeHelp\CodeHelp\CodeHelp.Common\bin\Debug\netcoreapp2.1\CodeHelp.Common.dll
+C:\D\Project\CodeHelp\CodeHelp\CodeHelp.Common\bin\Debug\netcoreapp2.1\CodeHelp.Common.pdb
+C:\D\Project\CodeHelp\CodeHelp\CodeHelp.Common\bin\Debug\netcoreapp2.1\Dapper.dll
+C:\D\Project\CodeHelp\CodeHelp\CodeHelp.Common\bin\Debug\netcoreapp2.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\D\Project\CodeHelp\CodeHelp\CodeHelp.Common\bin\Debug\netcoreapp2.1\System.Data.SqlClient.dll
+C:\D\Project\CodeHelp\CodeHelp\CodeHelp.Common\bin\Debug\netcoreapp2.1\Dapper.xml
+C:\D\Project\CodeHelp\CodeHelp\CodeHelp.Common\bin\Debug\netcoreapp2.1\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+C:\D\Project\CodeHelp\CodeHelp\CodeHelp.Common\bin\Debug\netcoreapp2.1\System.Data.SqlClient.xml
+C:\D\Project\CodeHelp\CodeHelp\CodeHelp.Common\obj\Debug\netcoreapp2.1\CodeHelp.Common.csprojAssemblyReference.cache
+C:\D\Project\CodeHelp\CodeHelp\CodeHelp.Common\obj\Debug\netcoreapp2.1\CodeHelp.Common.csproj.CoreCompileInputs.cache
+C:\D\Project\CodeHelp\CodeHelp\CodeHelp.Common\obj\Debug\netcoreapp2.1\CodeHelp.Common.AssemblyInfoInputs.cache
+C:\D\Project\CodeHelp\CodeHelp\CodeHelp.Common\obj\Debug\netcoreapp2.1\CodeHelp.Common.AssemblyInfo.cs
+C:\D\Project\CodeHelp\CodeHelp\CodeHelp.Common\obj\Debug\netcoreapp2.1\CodeHelp.Common.csproj.CopyComplete
+C:\D\Project\CodeHelp\CodeHelp\CodeHelp.Common\obj\Debug\netcoreapp2.1\CodeHelp.Common.dll
+C:\D\Project\CodeHelp\CodeHelp\CodeHelp.Common\obj\Debug\netcoreapp2.1\CodeHelp.Common.pdb
