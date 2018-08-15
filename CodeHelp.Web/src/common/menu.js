@@ -5,12 +5,6 @@ const menuData = [
     name: '数据库',
     icon: 'database',
     path: 'database',
-    children: [
-      {
-        name: '分析页',
-        path: 'analysis',
-      },
-    ],
   },
   {
     name: 'dashboard',
