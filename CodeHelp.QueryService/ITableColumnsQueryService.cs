@@ -5,6 +5,6 @@ namespace CodeHelp.QueryService
 {
     public interface ITableColumnsQueryService
     {
-        Task<TableColumnsListViewModel> Get(string tableName);
+        Task<TableColumnsListPaginationViewModel> Get(string tableName);
     }
 }

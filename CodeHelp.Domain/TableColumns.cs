@@ -7,6 +7,7 @@ namespace CodeHelp.Domain
         public string TableName { get; private set; }
         public string ColumnName { get; private set; }
         public string Description { get; private set; }
+        public int ColumnColid { get; private set; }
         public string ColumnType { get; private set; }
         public int ColumnLength { get; private set; }
         public string DefaultValue { get; private set; }

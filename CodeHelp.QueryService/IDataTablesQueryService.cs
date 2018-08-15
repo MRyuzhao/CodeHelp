@@ -6,6 +6,6 @@ namespace CodeHelp.QueryService
 {
     public interface IDataTablesQueryService
     {
-        Task<IList<DataTablesListViewModel>> GetAll(string tableName);
+        Task<IList<DataTablesListViewModel>> GetAll();
     }
 }

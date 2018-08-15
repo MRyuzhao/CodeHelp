@@ -1,4 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
+using CodeHelp.Common.Exceptions;
+using CodeHelp.Common.Mapper;
 using CodeHelp.Data.Dapper;
 using CodeHelp.QueryService.ViewModels;
 
@@ -7,13 +12,16 @@ namespace CodeHelp.QueryService.Impl
     public class TableColumnsQueryService : ITableColumnsQueryService
     {
         private readonly ISqlDatabaseProxy _sqlDatabaseProxy;
+        private readonly IMap _map;
 
-        public TableColumnsQueryService(ISqlDatabaseProxy sqlDatabaseProxy)
+        public TableColumnsQueryService(ISqlDatabaseProxy sqlDatabaseProxy, 
+            IMap map)
         {
             _sqlDatabaseProxy = sqlDatabaseProxy;
+            _map = map;
         }
 
-        public async Task<TableColumnsListViewModel> Get(string tableName)
+        public async Task<TableColumnsListPaginationViewModel> Get(string tableName)
         {
             var whereSql = "";
             if (!string.IsNullOrEmpty(tableName))
@@ -21,11 +29,11 @@ namespace CodeHelp.QueryService.Impl
                 whereSql += "WHERE sysobjects.name LIKE @tableName";
             }
             var sql = @"SELECT 
-                        sysobjects.name TableName,--表名
+                        sysobjects.name TableName,
                         syscolumns.colid Colid,--列编号
-                        syscolumns.name ColumnName,--列名
-                        syscolumns.length [Length],--长度
-                        systypes.name [Type],--类型
+                        syscolumns.name ColumnName,
+                        syscolumns.length ColumnLength,
+                        systypes.name ColumnType,
                         sys.extended_properties.value [Description],--字典备注
                         syscolumns.isnullable [IsNull],--是否为空
                         syscomments.text DefaultValue,--默认值
@@ -42,12 +50,23 @@ namespace CodeHelp.QueryService.Impl
                         LEFT JOIN sysobjects ON sysobjects.id =syscolumns.id 
                         LEFT JOIN syscomments ON syscolumns.cdefault=syscomments.id "
                         + (!string.IsNullOrEmpty(whereSql) ? $"{whereSql}" : "");
-            var result = await _sqlDatabaseProxy.Query<TableColumnsListViewModel>(sql, new
+            try
             {
-                tableName = $"{tableName}"
-            });
-            var results = AutoMapper.Mapper.Map<TableColumnsListViewModel>(result);
-            return results;
+                var result = await _sqlDatabaseProxy.Query<TableColumnsListViewModel>(sql, new
+                {
+                    tableName = $"{tableName}"
+                });
+                var results= _map.Map<List<TableColumnsListViewModel>>(result);
+                return new TableColumnsListPaginationViewModel(results);
+            }
+            catch (SqlException sqlException)
+            {
+                throw DataException.DatabaseError(sqlException);
+            }
+            catch (Exception exception)
+            {
+                throw DataException.GeneralError(exception);
+            }
         }
     }
 }

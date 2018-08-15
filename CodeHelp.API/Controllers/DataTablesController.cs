@@ -17,10 +17,10 @@ namespace CodeHelp.API.Controllers
         }
 
         // GET api/dataTables
-        [HttpGet("{tableName}")]
-        public async Task<IList<DataTablesListViewModel>> GetAll(string tableName)
+        [HttpGet]
+        public async Task<IList<DataTablesListViewModel>> GetAll()
         {
-            return await _queryService.GetAll(tableName);
+            return await _queryService.GetAll();
         }
     }
 }

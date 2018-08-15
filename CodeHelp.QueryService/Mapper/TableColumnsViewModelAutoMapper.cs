@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CodeHelp.Domain;
 using CodeHelp.QueryService.ViewModels;
 
 namespace CodeHelp.QueryService.Mapper
@@ -8,7 +7,8 @@ namespace CodeHelp.QueryService.Mapper
     {
         public TableColumnsViewModelAutoMapper()
         {
-            CreateMap<TableColumns, TableColumnsListViewModel>()
+            CreateMap<TableColumnsListViewModel, TableColumnsListViewModel>()
+                .ForMember(i => i.Key, o => o.MapFrom(s => s.ColumnName))
                 ;
         }
     }

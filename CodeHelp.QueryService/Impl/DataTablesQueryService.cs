@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CodeHelp.Common.Mapper;
 using CodeHelp.Data.Dapper;
+using CodeHelp.Domain;
 using CodeHelp.QueryService.ViewModels;
 
 namespace CodeHelp.QueryService.Impl
@@ -18,21 +19,12 @@ namespace CodeHelp.QueryService.Impl
             _map = map;
         }
 
-        public async Task<IList<DataTablesListViewModel>> GetAll(string tableName)
+        public async Task<IList<DataTablesListViewModel>> GetAll()
         {
-            var whereSql = "";
-            if (!string.IsNullOrEmpty(tableName))
-            {
-                whereSql += "WHERE ST.name LIKE @tableName";
-            }
             var sql = @"SELECT ST.name TableName, SEG.value Description
                         FROM sys.tables ST
-                        LEFT JOIN sys.extended_properties SEG ON ST.object_id = SEG.major_id AND SEG.minor_id = 0 "
-                        + (!string.IsNullOrEmpty(whereSql) ? $"{whereSql}" : "");
-            var queryResult = await _sqlDatabaseProxy.Query<DataTablesListViewModel>(sql, new
-            {
-                tableName=$"%{tableName}%"
-            });
+                        LEFT JOIN sys.extended_properties SEG ON ST.object_id = SEG.major_id AND SEG.minor_id = 0 ";
+            var queryResult = await _sqlDatabaseProxy.Query<DataTables>(sql);
             var result = _map.Map<List<DataTablesListViewModel>>(queryResult);
             return result;
         }

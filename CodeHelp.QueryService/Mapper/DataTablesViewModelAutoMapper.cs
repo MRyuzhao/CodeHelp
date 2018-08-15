@@ -9,8 +9,8 @@ namespace CodeHelp.QueryService.Mapper
         public DataTablesViewModelAutoMapper()
         {
             CreateMap<DataTables, DataTablesListViewModel>()
-                .ForMember(i => i.TableName, o => o.MapFrom(s => s.TableName.ToString()))
-                .ForMember(i => i.Description, o => o.MapFrom(s => s.Description.ToString()))
+                .ForMember(i => i.Value, o => o.MapFrom(s => s.TableName))
+                .ForMember(i => i.Text, o => o.MapFrom(s => s.TableName + (string.IsNullOrEmpty(s.Description) ? "" : $"_{s.Description}")))
                 ;
         }
     }

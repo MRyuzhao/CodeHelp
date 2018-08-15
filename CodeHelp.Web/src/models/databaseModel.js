@@ -11,18 +11,18 @@ export default {
   },
 
   effects: {
-    *fetchTableNameDropDownList({ payload }, { call, put }) {
-      const response = yield call(databaseService.dataTables, payload);
+    *fetchTableNameDropDownList(_, { call, put }) {
+      const response = yield call(databaseService.dataTables);
       yield put({
-        type: 'reducerfetchTableNameDropDownList',
-        payload: Array.isArray(response) ? response : [],
+        type: 'reducerTableNameDropDownList',
+        payload: response,
       });
     },
     *fetchTableColumns({ payload }, { call, put }) {
-      const response = yield call(databaseService.tableColumns, payload);
+      const response = yield call(databaseService.tableColumns, payload.tableName);
       yield put({
         type: 'reducerTableColumns',
-        payload: Array.isArray(response) ? response : [],
+        payload: response,
       });
     },
   },
@@ -37,7 +37,7 @@ export default {
     reducerTableColumns(state, action) {
       return {
         ...state,
-        list: action.payload,
+        data: { ...action.payload },
       };
     },
   },

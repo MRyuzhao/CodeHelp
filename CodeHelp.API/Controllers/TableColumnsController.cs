@@ -17,7 +17,7 @@ namespace CodeHelp.API.Controllers
 
         // GET api/tableColumns
         [HttpGet("{tableName}")]
-        public async Task<TableColumnsListViewModel> Get(string tableName)
+        public async Task<TableColumnsListPaginationViewModel> Get(string tableName)
         {
             return await _queryService.Get(tableName);
         }
