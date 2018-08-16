@@ -15,7 +15,6 @@ namespace CodeHelp.Repository
 
         private static void SharedWiring(IServiceCollection services)
         {
-            services.AddScoped<ITableColumnsRepository, TableColumnsRepository>();
             services.AddScoped<IDataTablesRepository, DataTablesRepository>();
         }
     }

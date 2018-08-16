@@ -10,6 +10,6 @@ namespace CodeHelp.Common
         }
         public IList<T> List { get; set; }
 
-        public string Pagination { get; set; }
+        //public string Pagination { get; set; }
     }
 }

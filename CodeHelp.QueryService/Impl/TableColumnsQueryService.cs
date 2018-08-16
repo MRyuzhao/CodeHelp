@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CodeHelp.Common.Exceptions;
 using CodeHelp.Common.Mapper;
 using CodeHelp.Data.Dapper;
+using CodeHelp.Domain;
 using CodeHelp.QueryService.ViewModels;
 
 namespace CodeHelp.QueryService.Impl
@@ -30,29 +31,30 @@ namespace CodeHelp.QueryService.Impl
             }
             var sql = @"SELECT 
                         sysobjects.name TableName,
-                        syscolumns.colid Colid,--列编号
+                        syscolumns.colid ColumnColid,
                         syscolumns.name ColumnName,
                         syscolumns.length ColumnLength,
                         systypes.name ColumnType,
-                        sys.extended_properties.value [Description],--字典备注
-                        syscolumns.isnullable [IsNull],--是否为空
-                        syscomments.text DefaultValue,--默认值
+                        sys.extended_properties.value [Description],
+                        syscolumns.isnullable [IsNull],
+                        syscomments.text DefaultValue,
                         (CASE WHEN EXISTS(SELECT 1 FROM sysobjects
                         JOIN sysindexes ON sysindexes.name = sysobjects.name  
                         JOIN sysindexkeys ON sysindexes.id = sysindexkeys.id AND sysindexes.indid = sysindexkeys.indid 
                         WHERE xtype='PK' AND parent_obj = syscolumns.id    
-                        AND sysindexkeys.colid = syscolumns.colid) THEN 1 ELSE 0 END) AS [IsPrimaryKey],--是否为主键
-                        (Case syscolumns.status WHEN 128 THEN 1 ELSE 0 END) AS [IsIdentity],--是否递增
-                        syscolumns.scale [Scale] --小数位数
+                        AND sysindexkeys.colid = syscolumns.colid) THEN 1 ELSE 0 END) AS [IsPrimaryKey],
+                        (Case syscolumns.status WHEN 128 THEN 1 ELSE 0 END) AS [IsIdentity],
+                        syscolumns.scale [Scale]
                         FROM syscolumns   
                         JOIN systypes ON syscolumns.xtype=systypes.xtype AND systypes.name <> 'sysname' 
                         LEFT JOIN sys.extended_properties ON sys.extended_properties.minor_id = syscolumns.colid AND sys.extended_properties.major_id = syscolumns.id
                         LEFT JOIN sysobjects ON sysobjects.id =syscolumns.id 
                         LEFT JOIN syscomments ON syscolumns.cdefault=syscomments.id "
-                        + (!string.IsNullOrEmpty(whereSql) ? $"{whereSql}" : "");
+                        + (!string.IsNullOrEmpty(whereSql) ? $"{whereSql}" : "") 
+                        + " ORDER BY ColumnColid";
             try
             {
-                var result = await _sqlDatabaseProxy.Query<TableColumnsListViewModel>(sql, new
+                var result = await _sqlDatabaseProxy.Query<TableColumns>(sql, new
                 {
                     tableName = $"{tableName}"
                 });

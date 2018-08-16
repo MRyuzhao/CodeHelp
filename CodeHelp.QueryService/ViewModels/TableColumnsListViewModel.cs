@@ -13,10 +13,10 @@ namespace CodeHelp.QueryService.ViewModels
         public string ColumnType { get; set; }
         public int ColumnLength { get; set; }
         public string DefaultValue { get; set; }
-        public int IsNull { get; set; }
-        public int IsPrimaryKey { get; set; }
-        public int IsIdentity { get; set; }
-        public int? Scale { get; set; }
+        public string IsNull { get; set; }
+        public string IsPrimaryKey { get; set; }
+        public string IsIdentity { get; set; }
+        public string Scale { get; set; }
     }
 
     public class TableColumnsListPaginationViewModel: PaginationViewModel<TableColumnsListViewModel>

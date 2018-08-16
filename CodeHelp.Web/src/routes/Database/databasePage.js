@@ -36,9 +36,7 @@ const getValue = obj =>
 }))
 @Form.create()
 export default class DatabasePage extends PureComponent {
-  state = {
-
-  };
+  state = {};
 
   componentDidMount() {
     this.gettTableNameDropDownList();
@@ -49,7 +47,7 @@ export default class DatabasePage extends PureComponent {
     dispatch({
       type: 'databaseModel/fetchTableNameDropDownList',
     });
-  }
+  };
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
     const { dispatch } = this.props;
@@ -80,11 +78,8 @@ export default class DatabasePage extends PureComponent {
   handleFormReset = () => {
     const { form, dispatch } = this.props;
     form.resetFields();
-    this.setState({
-      formValues: {},
-    });
     dispatch({
-      type: 'rule/fetch',
+      type: 'databaseModel/reducerTableColumns',
       payload: {},
     });
   };
@@ -105,14 +100,19 @@ export default class DatabasePage extends PureComponent {
   };
 
   renderOptions = list => {
-    var a = list.map(x =>
-      <Option value={x.value} key={x.value}>{x.text}</Option>
-    )
+    var a = list.map(x => (
+      <Option value={x.value} key={x.value}>
+        {x.text}
+      </Option>
+    ));
     return a;
-  }
+  };
 
   renderForm() {
-    const { form, databaseModel: { tableNameDropDownList } } = this.props;
+    const {
+      form,
+      databaseModel: { tableNameDropDownList },
+    } = this.props;
     const { getFieldDecorator } = form;
     return (
       <Form layout="inline">
@@ -124,7 +124,9 @@ export default class DatabasePage extends PureComponent {
                   showSearch
                   placeholder="请选择表名"
                   optionFilterProp="children"
-                  filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                  filterOption={(input, option) =>
+                    option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
                 >
                   {this.renderOptions(tableNameDropDownList)}
                 </Select>
@@ -148,11 +150,17 @@ export default class DatabasePage extends PureComponent {
 
   render() {
     const {
-      databaseModel: { data: { list } },
+      databaseModel: {
+        data: { list },
+      },
       dataLoading,
     } = this.props;
 
     const columns = [
+      {
+        title: '序号',
+        dataIndex: 'columnColid',
+      },
       {
         title: '表名',
         dataIndex: 'tableName',
