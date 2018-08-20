@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CodeHelp.Common.Mapper;
-using CodeHelp.QueryService.Mapper;
+using CodeHelp.Repository.Mapper;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CodeHelp.API

@@ -9,7 +9,7 @@ using CodeHelp.Common.Mapper;
 using CodeHelp.Common.SqlHelp;
 using CodeHelp.Data.Dapper;
 using CodeHelp.Domain;
-using CodeHelp.QueryService.ViewModels;
+using CodeHelp.Repository.ViewModels;
 
 namespace CodeHelp.QueryService.Impl
 {

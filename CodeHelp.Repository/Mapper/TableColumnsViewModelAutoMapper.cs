@@ -1,9 +1,11 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using CodeHelp.Common;
 using CodeHelp.Domain;
-using CodeHelp.QueryService.ViewModels;
+using CodeHelp.Repository.ViewModels;
 
-namespace CodeHelp.QueryService.Mapper
+namespace CodeHelp.Repository.Mapper
 {
     public class TableColumnsViewModelAutoMapper : Profile
     {
@@ -15,6 +17,10 @@ namespace CodeHelp.QueryService.Mapper
                 .ForMember(i => i.IsNull, o => o.MapFrom(s => s.IsNull.IsNullDescription()))
                 .ForMember(i => i.IsPrimaryKey, o => o.MapFrom(s => s.IsPrimaryKey.IsPrimaryKeyDescription()))
                 .ForMember(i => i.IsIdentity, o => o.MapFrom(s => s.IsIdentity.IsIdentityDescription()))
+                ;
+
+            CreateMap<IEnumerable<TableColumns>, TableColumnsViewModel>()
+                .ForMember(i => i.ColumnNames, o => o.MapFrom(s => s.Select(x=>x.ColumnName).ToList()))
                 ;
         }
     }

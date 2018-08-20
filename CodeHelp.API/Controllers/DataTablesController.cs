@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using CodeHelp.DomainService;
 using CodeHelp.DomainService.UICommands;
 using CodeHelp.QueryService;
-using CodeHelp.QueryService.ViewModels;
+using CodeHelp.Repository.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeHelp.API.Controllers

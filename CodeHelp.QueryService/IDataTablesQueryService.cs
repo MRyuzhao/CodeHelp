@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CodeHelp.QueryService.ViewModels;
+using CodeHelp.Repository.ViewModels;
 
 namespace CodeHelp.QueryService
 {

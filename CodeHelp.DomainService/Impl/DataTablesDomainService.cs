@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,14 +14,17 @@ namespace CodeHelp.DomainService.Impl
     public class DataTablesDomainService : IDataTablesDomainService
     {
         private readonly IDataTablesRepository _dataTablesRepository;
+        private readonly ITableColumnsRepository _tableColumnsRepository;
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
         private static readonly SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
 
         public DataTablesDomainService(IDataTablesRepository dataTablesRepository,
-            IUnitOfWorkFactory unitOfWorkFactory)
+            IUnitOfWorkFactory unitOfWorkFactory,
+            ITableColumnsRepository tableColumnsRepository)
         {
             _dataTablesRepository = dataTablesRepository;
             _unitOfWorkFactory = unitOfWorkFactory;
+            _tableColumnsRepository = tableColumnsRepository;
         }
 
         public async Task Add(AddDataTablesUiCommand entity)
@@ -66,19 +70,16 @@ namespace CodeHelp.DomainService.Impl
             using (var unitOnWork = _unitOfWorkFactory.GetCurrentUnitOfWork())
             {
                 var entityCodeModel = new EntityCodeModel();
+                var colums = await _tableColumnsRepository.QueryTableColumnsByTableName(entity.TableName);
                 var buildText = entityCodeModel.GetCodeBirthText(new CodeModel
                 {
                     TableName = entity.TableName,
-                    Columns = new List<string>
-                    {
-                        "Id1",
-                        "Id2",
-                        "Id3",
-                    }
+                    Columns = colums.ColumnNames
                 });
                 var bithPath = $@"{entity.BirthPath}\{entity.TableName}.cs";
-                await System.IO.File.WriteAllTextAsync(buildText, bithPath, Encoding.UTF8);
-                //var colums= await _dataTablesRepository.Delete(new Guid());
+               
+                await System.IO.File.WriteAllTextAsync(bithPath, buildText, Encoding.UTF8);
+              
                 unitOnWork.Commit();
             }
         }

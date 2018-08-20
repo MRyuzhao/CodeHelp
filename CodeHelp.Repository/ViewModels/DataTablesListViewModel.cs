@@ -1,4 +1,4 @@
-﻿namespace CodeHelp.QueryService.ViewModels
+﻿namespace CodeHelp.Repository.ViewModels
 {
     public class DataTablesListViewModel
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using CodeHelp.Common;
 
-namespace CodeHelp.QueryService.ViewModels
+namespace CodeHelp.Repository.ViewModels
 {
     public class TableColumnsListViewModel
     {

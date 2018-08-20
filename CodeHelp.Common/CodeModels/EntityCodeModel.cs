@@ -10,12 +10,12 @@ namespace CodeHelp.Common.CodeModels
             var textBuilder = new StringBuilder();
             textBuilder.Append("public class ");
             textBuilder.Append(codeModel.TableName);
-            textBuilder.Append(": Aggregate\n{");
+            textBuilder.Append(" : Aggregate\n{\n");
             foreach (var codeModelColumn in codeModel.Columns)
             {
-                textBuilder.Append("public string ");
+                textBuilder.Append("    public string ");
                 textBuilder.Append(codeModelColumn);
-                textBuilder.Append(" { get; private set; }");
+                textBuilder.Append(" { get; private set; }\n\n");
             }
             textBuilder.Append("}");
 

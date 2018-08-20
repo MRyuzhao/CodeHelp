@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CodeHelp.QueryService;
-using CodeHelp.QueryService.ViewModels;
+using CodeHelp.Repository.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeHelp.API.Controllers

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using CodeHelp.Domain;
-using CodeHelp.QueryService.ViewModels;
+using CodeHelp.Repository.ViewModels;
 
-namespace CodeHelp.QueryService.Mapper
+namespace CodeHelp.Repository.Mapper
 {
     public class DataTablesViewModelAutoMapper : Profile
     {
