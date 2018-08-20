@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dapper;
 
 namespace CodeHelp.Data.Dapper
 {
@@ -13,10 +15,10 @@ namespace CodeHelp.Data.Dapper
 
         Task<T> Get<T>(string sql, object param);
 
-        Task<IEnumerable<T>> GetAll<T>(string sql);
-
         Task<IEnumerable<T>> Query<T>(string sql);
 
         Task<IEnumerable<T>> Query<T>(string sql, object param);
+
+        Task<T> QueryMulti<T>(string sql, object param, Func<SqlMapper.GridReader, T> fill);
     }
 }

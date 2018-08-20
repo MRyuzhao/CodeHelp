@@ -3,7 +3,7 @@ using CodeHelp.Common.Enums;
 
 namespace CodeHelp.Domain
 {
-    public class TableColumns: Entity
+    public class TableColumns: Aggregate
     {
         public string TableName { get; private set; }
         public string ColumnName { get; private set; }

@@ -15,11 +15,13 @@ namespace CodeHelp.API.Controllers
             _queryService = queryService;
         }
 
-        // GET api/tableColumns
-        [HttpGet("{tableName}")]
-        public async Task<TableColumnsListPaginationViewModel> Get(string tableName)
+        // GET api/tableColumns/pagination
+        [Route("pagination")]
+        [HttpGet]
+        public async Task<TableColumnsListPaginationViewModel> GetByPage(string tableName,
+            int currentPage, int pageSize, string orderByPropertyName, bool isAsc)
         {
-            return await _queryService.Get(tableName);
+            return await _queryService.GetByPage(tableName, currentPage, pageSize, orderByPropertyName, isAsc);
         }
     }
 }

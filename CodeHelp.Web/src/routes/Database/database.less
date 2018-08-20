@@ -3,9 +3,14 @@
 
 .tableList {
   .tableListOperator {
-    margin-bottom: 16px;
-    button {
-      margin-right: 8px;
+    margin-bottom: 8px;
+    > .buttonFloatLeft button {
+      float: left;
+    }
+    > .buttonFloatRight button {
+      float: right;
+      margin-left: 8px;
+      margin-right: 0px !important;
     }
   }
 }
@@ -34,6 +39,23 @@
     white-space: nowrap;
     margin-bottom: 24px;
   }
+}
+
+// .buttonFloatLeft button{
+//   float: left;
+// }
+
+// .buttonFloatRight button{
+//   float: right;
+//   margin-left: 8px;
+//   margin-right: 0px !important;
+// }
+
+.clear {
+  clear: both;
+  height: 1px;
+  margin-top: -1px;
+  overflow: hidden;
 }
 
 @media screen and (max-width: @screen-lg) {

@@ -87,7 +87,7 @@ namespace CodeHelp.Data.Dapper.Repository
         {
             try
             {
-                return await DatabaseProxy.GetAll<T>(Sql.GetAll);
+                return await DatabaseProxy.Query<T>(Sql.GetAll);
             }
             catch (SqlException sqlException)
             {

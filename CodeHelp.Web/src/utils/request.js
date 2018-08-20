@@ -53,14 +53,13 @@ export default function request(url, options) {
     newOptions.method === 'DELETE'
   ) {
     if (!(newOptions.body instanceof FormData)) {
-      // newOptions.headers = {
-      //   Accept: 'application/json',
-      //   'Content-Type': 'application/json; charset=utf-8',
-      //   ...newOptions.headers,
-      // };
+      newOptions.headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json; charset=utf-8',
+        ...newOptions.headers,
+      };
       newOptions.body = JSON.stringify(newOptions.body);
-    } 
-    else {
+    } else {
       // newOptions.body is FormData
       newOptions.headers = {
         Accept: 'application/json',

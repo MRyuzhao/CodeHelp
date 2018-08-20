@@ -1,5 +1,8 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using CodeHelp.Common.CodeModels;
 using CodeHelp.Domain;
 using CodeHelp.DomainService.UICommands;
 using CodeHelp.Repository;
@@ -54,6 +57,28 @@ namespace CodeHelp.DomainService.Impl
             using (var unitOnWork = _unitOfWorkFactory.GetCurrentUnitOfWork())
             {
                 await _dataTablesRepository.Delete(entity.Id);
+                unitOnWork.Commit();
+            }
+        }
+
+        public async Task BirthCodeFile(BirthDataTablesUiCommand entity)
+        {
+            using (var unitOnWork = _unitOfWorkFactory.GetCurrentUnitOfWork())
+            {
+                var entityCodeModel = new EntityCodeModel();
+                var buildText = entityCodeModel.GetCodeBirthText(new CodeModel
+                {
+                    TableName = entity.TableName,
+                    Columns = new List<string>
+                    {
+                        "Id1",
+                        "Id2",
+                        "Id3",
+                    }
+                });
+                var bithPath = $@"{entity.BirthPath}\{entity.TableName}.cs";
+                await System.IO.File.WriteAllTextAsync(buildText, bithPath, Encoding.UTF8);
+                //var colums= await _dataTablesRepository.Delete(new Guid());
                 unitOnWork.Commit();
             }
         }

@@ -5,11 +5,15 @@ export default {
   state: {
     data: {
       list: [],
+      pagination: {},
     },
     tableNameDropDownList: [],
   },
 
   effects: {
+    *birthFile({ payload }, { call, put }) {
+      const response = yield call(databaseService.birthFile, payload);
+    },
     *fetchTableNameDropDownList(_, { call, put }) {
       const response = yield call(databaseService.dataTables);
       yield put({
@@ -18,7 +22,7 @@ export default {
       });
     },
     *fetchTableColumns({ payload }, { call, put }) {
-      const response = yield call(databaseService.tableColumns, payload.tableName);
+      const response = yield call(databaseService.tableColumns, payload);
       yield put({
         type: 'reducerTableColumns',
         payload: response,

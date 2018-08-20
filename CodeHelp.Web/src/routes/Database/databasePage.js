@@ -1,34 +1,64 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import {
-  Row,
-  Col,
-  Card,
-  Form,
-  Table,
-  Input,
-  Select,
-  Icon,
-  Button,
-  Dropdown,
-  Menu,
-  InputNumber,
-  DatePicker,
-  Modal,
-  message,
-  Badge,
-  Divider,
-} from 'antd';
-import StandardTable from 'components/StandardTable';
+import { Row, Col, Card, Form, Table, Select, Button, Modal, Input, Icon, message } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './database.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
-const getValue = obj =>
-  Object.keys(obj)
-    .map(key => obj[key])
-    .join(',');
+message.config({
+  duration: 3,
+  maxCount: 2,
+});
+
+@Form.create()
+export class PageModal extends PureComponent {
+  state = {};
+
+  okHandle = e => {
+    e.preventDefault();
+    const { form, handleBirthFile } = this.props;
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      handleBirthFile(fieldsValue.address);
+    });
+  };
+
+  handleeEptyAddress = () => {
+    this.props.form.setFieldsValue({
+      address: '',
+    });
+  };
+
+  render() {
+    const { form, modalVisible, handleModalVisible } = this.props;
+    const suffix = form.getFieldValue('address') ? (
+      <Icon type="close-circle" onClick={this.handleeEptyAddress} />
+    ) : null;
+
+    return (
+      <Modal
+        title="生成文件"
+        visible={modalVisible}
+        onOk={this.okHandle}
+        onCancel={() => handleModalVisible(false)}
+        width={800}
+      >
+        <FormItem labelCol={{ span: 2 }} wrapperCol={{ span: 22 }} label="路径">
+          {form.getFieldDecorator('address', {
+            rules: [{ required: true, message: '请输入生成文件所在的路径' }],
+          })(
+            <Input
+              placeholder="请输入生成文件所在的路径"
+              prefix={<Icon type="link" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              suffix={suffix}
+            />
+          )}
+        </FormItem>
+      </Modal>
+    );
+  }
+}
 
 @connect(({ databaseModel, loading }) => ({
   databaseModel,
@@ -36,10 +66,20 @@ const getValue = obj =>
 }))
 @Form.create()
 export default class DatabasePage extends PureComponent {
-  state = {};
+  state = {
+    pagination: {
+      currentPage: 1,
+      pageSize: 10,
+      orderByPropertyName: 'columnColid',
+      isAsc: false,
+    },
+    queryObject: {},
+    modalVisible: false,
+  };
 
   componentDidMount() {
     this.gettTableNameDropDownList();
+    this.getDatas();
   }
 
   gettTableNameDropDownList = () => {
@@ -49,63 +89,101 @@ export default class DatabasePage extends PureComponent {
     });
   };
 
-  handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
-    const { formValues } = this.state;
-
-    const filters = Object.keys(filtersArg).reduce((obj, key) => {
-      const newObj = { ...obj };
-      newObj[key] = getValue(filtersArg[key]);
-      return newObj;
-    }, {});
-
-    const params = {
-      currentPage: pagination.current,
-      pageSize: pagination.pageSize,
-      ...formValues,
-      ...filters,
-    };
-    if (sorter.field) {
-      params.sorter = `${sorter.field}_${sorter.order}`;
-    }
-
-    dispatch({
-      type: 'rule/fetch',
-      payload: params,
+  getDatas = () => {
+    const queryObject = this.state.queryObject;
+    const page = this.state.pagination;
+    const queryString = { ...queryObject, ...page };
+    this.props.dispatch({
+      type: 'databaseModel/fetchTableColumns',
+      payload: queryString,
     });
   };
 
-  handleFormReset = () => {
-    const { form, dispatch } = this.props;
-    form.resetFields();
-    dispatch({
-      type: 'databaseModel/reducerTableColumns',
-      payload: {},
+  handleBirthCode = e => {
+    e.preventDefault();
+    const { form } = this.props;
+    form.validateFields((_, fieldsValue) => {
+      if (!fieldsValue || !fieldsValue.tableName) {
+        message.warning('请选择数据库表');
+        return;
+      }
+      this.handleModalVisible(true);
     });
   };
 
   handleSearch = e => {
     e.preventDefault();
-    const { dispatch, form } = this.props;
+    const { form } = this.props;
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-      const values = {
-        tableName: fieldsValue.tableName,
-      };
-      dispatch({
-        type: 'databaseModel/fetchTableColumns',
-        payload: values,
-      });
+      this.setState(
+        {
+          queryObject: {
+            tableName: fieldsValue.tableName,
+          },
+        },
+        () => this.getDatas()
+      );
+    });
+  };
+
+  handleFormReset = () => {
+    const { form } = this.props;
+    form.resetFields();
+    this.setState(
+      {
+        queryObject: {},
+      },
+      () => this.getDatas()
+    );
+  };
+
+  handleTableChange = (pagination, _, sorter) => {
+    this.setState(
+      {
+        pagination: {
+          pageSize: pagination.pageSize,
+          currentPage: pagination.current,
+          orderByPropertyName: sorter.field,
+          isAsc: sorter.order && sorter.order === 'ascend',
+        },
+      },
+      () => this.getDatas()
+    );
+  };
+
+  handleBirthFile = address => {
+    const { form, dispatch } = this.props;
+    dispatch({
+      type: 'databaseModel/birthFile',
+      payload: {
+        BirthPath: address,
+        TableName: form.getFieldValue('tableName'),
+      },
+    });
+  };
+
+  handleQueryObject = () => {
+    this.setState({
+      queryObject: {
+        vehicleNo: fieldsValue.vehicleNo,
+        carNumber: fieldsValue.carNumber,
+      },
+    });
+  };
+
+  handleModalVisible = value => {
+    this.setState({
+      modalVisible: value,
     });
   };
 
   renderOptions = list => {
-    var a = list.map(x => (
+    return list.map(x => (
       <Option value={x.value} key={x.value}>
         {x.text}
       </Option>
     ));
-    return a;
   };
 
   renderForm() {
@@ -117,7 +195,7 @@ export default class DatabasePage extends PureComponent {
     return (
       <Form layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
+          <Col md={16} sm={24}>
             <FormItem label="表名">
               {getFieldDecorator('tableName')(
                 <Select
@@ -133,41 +211,56 @@ export default class DatabasePage extends PureComponent {
               )}
             </FormItem>
           </Col>
-          <Col md={8} sm={24}>
-            <span className={styles.submitButtons}>
-              <Button type="primary" onClick={this.handleSearch}>
-                查询
-              </Button>
-              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
-                重置
-              </Button>
-            </span>
-          </Col>
         </Row>
       </Form>
+    );
+  }
+
+  renderButton() {
+    return (
+      <div className={styles.tableListOperator}>
+        <div className={styles.buttonFloatLeft}>
+          <Button icon="plus" type="primary" onClick={this.handleBirthCode}>
+            生成
+          </Button>
+        </div>
+        <div className={styles.buttonFloatRight}>
+          <Button icon="reload" onClick={this.handleFormReset}>
+            重置
+          </Button>
+          <Button icon="search" type="primary" onClick={this.handleSearch}>
+            查询
+          </Button>
+          <div className={styles.clear} />
+        </div>
+      </div>
     );
   }
 
   render() {
     const {
       databaseModel: {
-        data: { list },
+        data: { list, pagination },
       },
       dataLoading,
     } = this.props;
-
     const columns = [
       {
         title: '序号',
+        width: 100,
         dataIndex: 'columnColid',
+        fixed: 'left',
+        sorter: true,
+      },
+      {
+        title: '列名',
+        width: 250,
+        dataIndex: 'columnName',
+        fixed: 'left',
       },
       {
         title: '表名',
         dataIndex: 'tableName',
-      },
-      {
-        title: '列名',
-        dataIndex: 'columnName',
       },
       {
         title: '描述',
@@ -202,20 +295,37 @@ export default class DatabasePage extends PureComponent {
         dataIndex: 'scale',
       },
     ];
+    const newPagination = {
+      ...pagination,
+      showSizeChanger: true,
+      showQuickJumper: true,
+      showTotal: total => `总共 ${total} 条记录`,
+    };
+    const parentDatas = {
+      modalVisible: this.state.modalVisible,
+    };
+    const parentMethods = {
+      handleModalVisible: value => this.handleModalVisible(value),
+      handleBirthFile: this.handleBirthFile.bind(this),
+    };
 
     return (
-      <PageHeaderLayout title="数据库">
+      <PageHeaderLayout title="DataBase">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
+            {this.renderButton()}
             <Table
               loading={dataLoading}
               dataSource={list}
+              pagination={newPagination}
               columns={columns}
-              onChange={this.handleStandardTableChange}
+              onChange={this.handleTableChange}
+              scroll={{ x: 1500 }}
             />
           </div>
         </Card>
+        <PageModal {...parentDatas} {...parentMethods} />
       </PageHeaderLayout>
     );
   }

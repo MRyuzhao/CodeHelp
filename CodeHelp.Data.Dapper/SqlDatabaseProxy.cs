@@ -22,9 +22,9 @@ namespace CodeHelp.Data.Dapper
                 var connection = _connectionFactory.CreateConnection();
                 return connection;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                throw new Exception("Failed to create connection");
+                throw new Exception("Failed to create connection" + exception);
             }
         }
 
@@ -60,14 +60,6 @@ namespace CodeHelp.Data.Dapper
             }
         }
 
-        public async Task<IEnumerable<T>> GetAll<T>(string sql)
-        {
-            using (var connection = CreateConnection())
-            {
-                return await connection.QueryAsync<T>(sql);
-            }
-        }
-
         public async Task<IEnumerable<T>> Query<T>(string sql)
         {
             using (var connection = CreateConnection())
@@ -81,6 +73,16 @@ namespace CodeHelp.Data.Dapper
             using (var connection = CreateConnection())
             {
                 return await connection.QueryAsync<T>(sql, param);
+            }
+        }
+
+        public async Task<T> QueryMulti<T>(string sql, object param, Func<SqlMapper.GridReader, T> fill)
+        {
+            using (var connection = CreateConnection())
+            {
+                var muti = await connection.QueryMultipleAsync(sql, param);
+                var t = fill(muti);
+                return  t;
             }
         }
     }

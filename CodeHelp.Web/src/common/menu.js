@@ -2,7 +2,7 @@ import { isUrl } from '../utils/utils';
 
 const menuData = [
   {
-    name: '数据库',
+    name: 'Database',
     icon: 'database',
     path: 'database',
   },

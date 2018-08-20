@@ -8,5 +8,6 @@ namespace CodeHelp.DomainService
         Task Add(AddDataTablesUiCommand entity);
         Task Update(UpdateDataTablesUiCommand entity);
         Task Delete(DeleteDataTablesUiCommand entity);
+        Task BirthCodeFile(BirthDataTablesUiCommand entity);
     }
 }

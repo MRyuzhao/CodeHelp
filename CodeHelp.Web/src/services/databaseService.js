@@ -7,7 +7,14 @@ export class databaseService {
     return request(`${getAPIBaseUrl()}dataTables`);
   }
 
+  static async birthFile(params) {
+    return request(`${getAPIBaseUrl()}dataTables`, {
+      method: 'POST',
+      body: params,
+    });
+  }
+
   static async tableColumns(param) {
-    return request(`${getAPIBaseUrl()}tableColumns/${param}`);
+    return request(`${getAPIBaseUrl()}tableColumns/pagination?${stringify(param)}`);
   }
 }

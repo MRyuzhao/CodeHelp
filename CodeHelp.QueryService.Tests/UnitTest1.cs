@@ -13,9 +13,7 @@ namespace CodeHelp.QueryService.Tests
 
             var builder = new SqlBuilder();
             var selector = builder.AddTemplate(
-                @"SELECT ST.name TableName,SEG.value Description
-                FROM sys.tables ST
-                LEFT JOIN sys.extended_properties SEG ON ST.object_id = SEG.major_id AND SEG.minor_id = 0 "
+                @"select * from table /**where**/ "
             );
 
             if (!string.IsNullOrEmpty(model.FirstName))

@@ -19,9 +19,10 @@ namespace CodeHelp.QueryService.ViewModels
         public string Scale { get; set; }
     }
 
-    public class TableColumnsListPaginationViewModel: PaginationViewModel<TableColumnsListViewModel>
+    public class TableColumnsListPaginationViewModel : PaginationViewModel<TableColumnsListViewModel>
     {
-        public TableColumnsListPaginationViewModel(IList<TableColumnsListViewModel> list) : base(list)
+        public TableColumnsListPaginationViewModel(IList<TableColumnsListViewModel> list,
+            int currentPage, int pageSize, int total) : base(list, currentPage, pageSize, total)
         {
         }
     }
