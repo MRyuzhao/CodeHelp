@@ -2,8 +2,12 @@ import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
 import { fakeAccountLogin } from '../services/api';
 import { setAuthority } from '../utils/authority';
+import { User, UserManager, Log } from 'oidc-client';
 import { reloadAuthorized } from '../utils/Authorized';
 import { getPageQuery } from '../utils/utils';
+
+Log.logger = console;
+Log.level = Log.DEBUG;
 
 export default {
   namespace: 'login',

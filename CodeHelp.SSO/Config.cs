@@ -41,9 +41,11 @@ namespace CodeHelp.SSO
                     ClientId = "codeHelpClient",
                     ClientName = "codeHelp.Client",
                     AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,//允许返回Access Token
+                    //AccessTokenLifetime = 60 * 10,
                     ClientSecrets = { new Secret("secret".Sha256()) },
-                    RedirectUris = { "http://localhost:5002/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
+                    RedirectUris = { "http://localhost:5002/loginCallback" },//须与客户端一致
+                    PostLogoutRedirectUris = { "http://localhost:5002/logoutCallback" },//须与客户端一致
                     RequireConsent = false,//禁用 consent 页面确认
                     AllowedScopes = new List<string>
                     {
@@ -57,7 +59,7 @@ namespace CodeHelp.SSO
                         "http://localhost:5001",
                         "http://localhost:5000"
                     },
-                    AllowAccessTokensViaBrowser = true//允许返回Access Token
+                 
                 },
 
                 //new IdentityServer4.Models.Client

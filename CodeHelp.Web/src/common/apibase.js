@@ -1,3 +1,3 @@
 export function getAPIBaseUrl() {
-  return "http://localhost:53167/api/";
+  return "http://localhost:5001/api/";
 }

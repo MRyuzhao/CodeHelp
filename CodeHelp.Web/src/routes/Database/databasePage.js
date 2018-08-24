@@ -163,7 +163,7 @@ export default class DatabasePage extends PureComponent {
     });
   };
 
-  handleQueryObject = () => {
+  handleQueryObject = fieldsValue => {
     this.setState({
       queryObject: {
         vehicleNo: fieldsValue.vehicleNo,

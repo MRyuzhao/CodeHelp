@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "precommit": "npm run lint-staged",
-    "start": "cross-env ESLINT=none roadhog dev",
+    "start": "cross-env ESLINT=true PORT=5002 roadhog dev",
     "start:no-proxy": "cross-env NO_PROXY=true ESLINT=none roadhog dev",
     "build": "cross-env ESLINT=none roadhog build",
     "site": "roadhog-api-doc static && gh-pages -d dist",
@@ -34,6 +34,7 @@
     "lodash-decorators": "^6.0.0",
     "moment": "^2.19.3",
     "numeral": "^2.0.6",
+    "oidc-client": "^1.5.2",
     "omit.js": "^1.0.0",
     "path-to-regexp": "^2.1.0",
     "prop-types": "^15.5.10",
@@ -43,6 +44,7 @@
     "react-document-title": "^2.0.3",
     "react-dom": "^16.4.1",
     "react-fittext": "^1.0.0",
+    "redux-oidc": "^3.0.2",
     "rollbar": "^2.3.4",
     "setprototypeof": "^1.1.0",
     "url-polyfill": "^1.0.10"

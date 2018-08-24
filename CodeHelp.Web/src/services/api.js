@@ -1,5 +1,6 @@
 import { stringify } from 'qs';
 import request from '../utils/request';
+import { getAPIBaseUrl } from '../common/apibase';
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');
@@ -61,7 +62,7 @@ export async function queryFakeList(params) {
 }
 
 export async function fakeAccountLogin(params) {
-  return request('/api/login/account', {
+  return request(`${getAPIBaseUrl()}/account`, {
     method: 'POST',
     body: params,
   });
