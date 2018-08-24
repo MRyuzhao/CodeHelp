@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CodeHelp.API.Controllers
 {
     [Route("api/dataTables")]
-    public class DataTablesController : Controller
+    public class DataTablesController : BaseController
     {
         private readonly IDataTablesQueryService _queryService;
         private readonly IDataTablesDomainService _domainService;

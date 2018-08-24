@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CodeHelp.API.Controllers
 {
     [Route("api/tableColumns")]
-    public class TableColumnsController : Controller
+    public class TableColumnsController : BaseController
     {
         private readonly ITableColumnsQueryService _queryService;
 
