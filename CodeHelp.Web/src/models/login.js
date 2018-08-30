@@ -1,10 +1,11 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
 import { fakeAccountLogin } from '../services/api';
-import { setAuthority } from '../utils/authority';
+import { setUserIdentity, setAuthority } from '../utils/authority';
 import { User, UserManager, Log } from 'oidc-client';
 import { reloadAuthorized } from '../utils/Authorized';
 import { getPageQuery } from '../utils/utils';
+import { authenticationService } from '../services/authenticationService';
 
 Log.logger = console;
 Log.level = Log.DEBUG;
@@ -17,6 +18,30 @@ export default {
   },
 
   effects: {
+    *loginCallback({ payload }, { call, put }) {
+      //reloadAuthorized();
+      // yield put(routerRedux.replace(redirect || '/'));
+      debugger
+      //const response = yield call(authenticationService.getUser);
+      debugger
+      // localStorage.setItem("islogin", false);
+      // const response = yield call(authenticationService.getUser, payload);
+      // yield put({
+      //   type: 'changeLoginStatus',
+      //   payload: response,
+      // });
+      yield put(routerRedux.push('/database'));
+      // Login successfully
+      // if (response) {
+      //   //const responseRoles = yield call(functionsService.GetFunctionalRoles);
+      //   //setAuthority(responseRoles.role);
+      //   //localStorage.setItem("functionRoles", JSON.stringify(responseRoles.functionRoles));
+      //   //localStorage.setItem("buttonFunctionAuthorizeds", JSON.stringify(responseRoles.buttonFunctionAuthorizeds));
+      //   //reloadAuthorized();
+
+      // }
+
+    },
     *login({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
       yield put({
@@ -25,6 +50,7 @@ export default {
       });
       // Login successfully
       if (response.status === 'ok') {
+
         reloadAuthorized();
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
@@ -37,7 +63,7 @@ export default {
               redirect = redirect.substr(2);
             }
           } else {
-            window.location.href = redirect;
+            window.location.href = redirect; window.location.href = redirect;
             return;
           }
         }
@@ -66,11 +92,12 @@ export default {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
+      debugger
+      setUserIdentity(payload);
       return {
         ...state,
-        status: payload.status,
-        type: payload.type,
+        // status: payload.status,
+        // type: payload.type,
       };
     },
   },

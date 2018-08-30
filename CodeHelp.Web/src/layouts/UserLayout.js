@@ -67,14 +67,15 @@ class UserLayout extends React.PureComponent {
             </div>
             <Switch>
               {getRoutes(match.path, routerData).map(item => (
-                <Route
+                 <Route
                   key={item.key}
                   path={item.path}
                   component={item.component}
                   exact={item.exact}
                 />
               ))}
-              <Redirect from="/user" to={getLoginPathWithRedirectPath()} />
+              <Redirect exact from="/user" to="/user/login" />
+              {/* <Redirect exact from="/user/login" to="/user/loginCallback" /> */}
             </Switch>
           </div>
           <GlobalFooter links={links} copyright={copyright} />

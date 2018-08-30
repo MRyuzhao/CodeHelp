@@ -44,8 +44,8 @@ namespace CodeHelp.SSO
                     AllowAccessTokensViaBrowser = true,//允许返回Access Token
                     //AccessTokenLifetime = 60 * 10,
                     ClientSecrets = { new Secret("secret".Sha256()) },
-                    RedirectUris = { "http://localhost:5002/loginCallback" },//须与客户端一致
-                    PostLogoutRedirectUris = { "http://localhost:5002/logoutCallback" },//须与客户端一致
+                    RedirectUris = { "http://localhost:5002/user/loginCallback" },//须与客户端一致
+                    PostLogoutRedirectUris = { "http://localhost:5002/user/logoutCallback" },//须与客户端一致
                     RequireConsent = false,//禁用 consent 页面确认
                     AllowedScopes = new List<string>
                     {

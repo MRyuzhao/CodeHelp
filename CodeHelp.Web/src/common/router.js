@@ -74,10 +74,10 @@ export const getRouterData = app => {
     '/': {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
     },
-    '/loginCallback': {
+    '/user/loginCallback': {
       component: dynamicWrapper(app, ['login'], () => import('../routes/User/LoginCallback')),
     },
-    '/logoutCallback': {
+    '/user/logoutCallback': {
       component: dynamicWrapper(app, ['login'], () => import('../routes/User/LogoutCallback')),
     },
     '/database': {

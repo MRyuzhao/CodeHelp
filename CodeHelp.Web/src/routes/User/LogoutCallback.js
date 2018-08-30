@@ -3,18 +3,18 @@ import { connect } from 'dva';
 import styles from './Login.less';
 import userManager from "../../utils/userManager"
 
-@connect(({ login }) => ({
-  login
-}))
+// @connect(({ login }) => ({
+//   login
+// }))
 export default class LogoutCallbackPage extends Component {
-  state = {
-    type: 'account',
-    autoLogin: true,
-  };
+  // state = {
+  //   type: 'account',
+  //   autoLogin: true,
+  // };
 
-  componentDidMount() {
-    userManager.signoutRedirect();
-  }
+  // componentDidMount() {
+  //   userManager.signoutRedirect();
+  // }
 
   render() {
     return (

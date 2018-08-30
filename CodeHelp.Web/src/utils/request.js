@@ -1,6 +1,7 @@
 import fetch from 'dva/fetch';
 import { notification } from 'antd';
 import { routerRedux } from 'dva/router';
+import { getUserIdentity } from './authority';
 import store from '../index';
 
 const codeMessage = {
@@ -46,25 +47,37 @@ export default function request(url, options) {
   const defaultOptions = {
     credentials: 'include',
   };
+  const userIdentity = getUserIdentity();
+
   const newOptions = { ...defaultOptions, ...options };
+  debugger
+  if (userIdentity && userIdentity.token_type) {
+    newOptions.headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json; charset=utf-8',
+      Authorization: userIdentity.token_type + ' ' + userIdentity.access_token,
+      ...newOptions.headers,
+    };
+  } else {
+    newOptions.headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json; charset=utf-8',
+      ...newOptions.headers,
+    };
+  }
+
   if (
     newOptions.method === 'POST' ||
     newOptions.method === 'PUT' ||
     newOptions.method === 'DELETE'
   ) {
     if (!(newOptions.body instanceof FormData)) {
-      newOptions.headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json; charset=utf-8',
-        ...newOptions.headers,
-      };
+      // newOptions.headers = {
+      //   Accept: 'application/json',
+      //   'Content-Type': 'application/json; charset=utf-8',
+      //   ...newOptions.headers,
+      // };
       newOptions.body = JSON.stringify(newOptions.body);
-    } else {
-      // newOptions.body is FormData
-      newOptions.headers = {
-        Accept: 'application/json',
-        ...newOptions.headers,
-      };
     }
   }
 

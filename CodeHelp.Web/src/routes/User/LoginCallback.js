@@ -7,11 +7,11 @@ import styles from './Login.less';
 }))
 export default class LoginCallbackPage extends Component {
 
-  // componentDidMount() {
-  //   this.props.dispatch({
-  //     type: 'login/loginCallback',
-  //   });
-  // }
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'login/loginCallback',
+    });
+  }
 
   render() {
     return (
